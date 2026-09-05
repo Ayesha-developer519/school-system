@@ -96,7 +96,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="/login">
+                    <form method="POST" action="{{ route('login.submit')}}">
                         @csrf
 
                         <div class="mb-3">
@@ -120,7 +120,7 @@
                     </form>
 
                     <p class="text-center mt-4 small text-muted mb-0">
-                        Don't have an account? <a href="/register" class="text-decoration-none fw-medium">Register here</a>
+                        Don't have an account? <a href="{{ route('register') }}" class="text-decoration-none fw-medium">Register here</a>
                     </p>
                 </div>
             </div>

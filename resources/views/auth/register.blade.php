@@ -117,7 +117,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="/register">
+                    <form method="POST" action="{{ route('register.submit') }}">
                         @csrf
 
                         <div class="mb-3">
@@ -158,7 +158,6 @@
                                     <span id="roleSelectedText">-- Select role --</span>
                                 </button>
                                 <ul class="dropdown-menu w-100 custom-role-menu" aria-labelledby="roleDropdownBtn">
-                                    <li><a class="dropdown-item role-item" href="#" data-value="admin">Admin</a></li>
                                     <li><a class="dropdown-item role-item" href="#" data-value="teacher">Teacher</a></li>
                                     <li><a class="dropdown-item role-item" href="#" data-value="student">Student</a></li>
                                     <li><a class="dropdown-item role-item" href="#" data-value="parent">Parent</a></li>
@@ -173,7 +172,7 @@
                     </form>
 
                     <p class="text-center mt-4 small text-muted mb-0">
-                        Already have an account? <a href="/login" class="text-decoration-none fw-medium">Login here</a>
+                        Already have an account? <a href="{{ route('login') }}" class="text-decoration-none fw-medium">Login here</a>
                     </p>
                 </div>
             </div>
