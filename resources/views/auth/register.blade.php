@@ -158,7 +158,6 @@
                                     <span id="roleSelectedText">-- Select role --</span>
                                 </button>
                                 <ul class="dropdown-menu w-100 custom-role-menu" aria-labelledby="roleDropdownBtn">
-                                    <li><a class="dropdown-item role-item" href="#" data-value="teacher">Teacher</a></li>
                                     <li><a class="dropdown-item role-item" href="#" data-value="student">Student</a></li>
                                     <li><a class="dropdown-item role-item" href="#" data-value="parent">Parent</a></li>
                                 </ul>
