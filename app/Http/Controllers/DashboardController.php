@@ -8,7 +8,11 @@ class DashboardController extends Controller
 {
      public function admin()
     {
-        return view('admin.dashboard');
+        $totalStudents = \App\Models\Student::count();
+        $totalTeachers = \App\Models\User::where('role', 'teacher')->count();
+        $totalClasses = \App\Models\ClassRoom::count();
+
+        return view('admin.dashboard', compact('totalStudents', 'totalTeachers', 'totalClasses'));
     }
 
     public function teacher()

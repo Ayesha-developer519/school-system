@@ -69,6 +69,46 @@
             background: #dc3545;
             color: #fff;
         }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            padding: 11px 15px;
+            border: 1px solid #dfe1e6;
+        }
+        .form-control:focus, .form-select:focus {
+            box-shadow: 0 0 0 3px rgba(26,156,109,0.12);
+            border-color: #1a9c6d;
+        }
+        .form-label {
+            color: #6c757d;
+        }
+        textarea.form-control {
+            padding: 11px 15px;
+        }
+
+        .dropdown-toggle-custom {
+            cursor: pointer;
+        }
+        .custom-role-menu {
+            border-radius: 8px;
+            border: 1px solid #dfe1e6;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            padding: 6px;
+        }
+        .role-item {
+            border-radius: 6px;
+            padding: 8px 12px;
+            color: #333;
+        }
+        .role-item:hover,
+        .role-item:focus {
+            background-color: #1a9c6d;
+            color: #fff;
+        }
+        .role-item.active {
+            background-color: #eafaf3;
+            color: #0d5c3f;
+        }
     </style>
     @yield('styles')
 </head>
@@ -100,5 +140,42 @@
     @yield('content')
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Password show/hide toggle
+    function togglePassword(fieldId, iconId) {
+        const field = document.getElementById(fieldId);
+        const icon = document.getElementById(iconId);
+
+        if (field.type === "password") {
+            field.type = "text";
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+        } else {
+            field.type = "password";
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+        }
+    }
+
+    // Custom dropdown handler (role, class, gender, etc.)
+    document.querySelectorAll('.role-item').forEach(item => {
+        item.addEventListener('click', function (e) {
+            e.preventDefault();
+            const menu = this.closest('.dropdown');
+            const button = menu.querySelector('button span');
+            const hiddenInput = menu.querySelector('input[type="hidden"]');
+
+            button.textContent = this.textContent;
+            hiddenInput.value = this.dataset.value;
+
+            menu.querySelectorAll('.role-item').forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+</script>
+
+@stack('scripts')
 </body>
 </html>

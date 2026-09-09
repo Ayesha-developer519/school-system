@@ -152,17 +152,10 @@
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label small text-muted">Register as</label>
-                            <div class="dropdown">
-                                <button class="form-select text-start dropdown-toggle-custom" type="button" id="roleDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span id="roleSelectedText">-- Select role --</span>
-                                </button>
-                                <ul class="dropdown-menu w-100 custom-role-menu" aria-labelledby="roleDropdownBtn">
-                                    <li><a class="dropdown-item role-item" href="#" data-value="student">Student</a></li>
-                                    <li><a class="dropdown-item role-item" href="#" data-value="parent">Parent</a></li>
-                                </ul>
-                                <input type="hidden" name="role" id="roleInput" value="{{ old('role') }}" required>
-                            </div>
+                            <input type="hidden" name="role" value="parent">
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-info-circle"></i> You're registering as a Parent. Student and Teacher accounts are created by the school Admin.
+                            </p>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 text-white">

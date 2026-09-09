@@ -107,7 +107,7 @@
                         <div class="mb-4">
                             <label class="form-label small text-muted">Password</label>
                             <div class="position-relative">
-                                <input type="password" name="password" id="password" class="form-control pe-5" placeholder="••••••••" required>
+                                <input type="password" name="password" id="password" class="form-control pe-5" required>
                                 <i class="bi bi-eye-slash position-absolute" id="password-icon" 
                                 style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #888;"
                                 onclick="togglePassword('password', 'password-icon')"></i>
