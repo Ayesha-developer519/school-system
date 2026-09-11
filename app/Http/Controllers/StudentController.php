@@ -8,13 +8,14 @@ use App\Models\Student;
 use App\Models\ClassRoom;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
      public function index()
     {
-        $students = Student::with(['user', 'classRoom'])->latest()->get();
-        return view('admin.students.index', compact('students'));
+        $classes = ClassRoom::with(['students.user'])->orderBy('class_name')->orderBy('section')->get();
+        return view('admin.students.index', compact('classes'));
     }
 
     // Add student form dikhana
@@ -32,12 +33,20 @@ class StudentController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'class_id' => 'required|exists:classes,id',
-            'roll_number' => 'required|string|unique:students',
+            'roll_number' => [
+                'required',
+                'integer',
+                Rule::unique('students')->where(function ($query) use ($request) {
+                    return $query->where('class_id', $request->class_id);
+                }),
+            ],
             'father_name' => 'required|string|max:255',
             'dob' => 'nullable|date',
             'gender' => 'nullable|string',
             'address' => 'nullable|string',
             'admission_date' => 'required|date',
+        ], [
+            'roll_number.unique' => 'This roll number is already taken in the selected class.',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -85,12 +94,22 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $student->user_id,
             'class_id' => 'required|exists:classes,id',
-            'roll_number' => 'required|string|unique:students,roll_number,' . $student->id,
+            'roll_number' => [
+                'required',
+                'integer',
+                Rule::unique('students')
+                    ->where(function ($query) use ($request) {
+                        return $query->where('class_id', $request->class_id);
+                    })
+                    ->ignore($student->id),
+            ],
             'father_name' => 'required|string|max:255',
             'dob' => 'nullable|date',
             'gender' => 'nullable|string',
             'address' => 'nullable|string',
             'admission_date' => 'required|date',
+        ], [
+            'roll_number.unique' => 'This roll number is already taken in the selected class.',
         ]);
 
         $student->user->update([
@@ -109,12 +128,5 @@ class StudentController extends Controller
         ]);
 
         return redirect()->route('students.index')->with('success', 'Student updated successfully.');
-    }
-
-    // Delete karna
-    public function destroy(Student $student)
-    {
-        $student->user->delete(); // cascade delete se student record bhi khud delete ho jayega
-        return redirect()->route('students.index')->with('success', 'Student deleted successfully.');
     }
 }

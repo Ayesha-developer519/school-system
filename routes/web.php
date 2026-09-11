@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\ClassController;
+use App\Http\Controllers\TeacherController;
+
 
 
 // Auth Routes
@@ -25,6 +28,20 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::put('/admin/students/{student}', [StudentController::class, 'update'])->name('students.update');
     Route::get('/admin/students/{student}', [StudentController::class, 'show'])->name('students.show');
     Route::delete('/admin/students/{student}', [StudentController::class, 'destroy'])->name('students.destroy');
+    Route::get('/admin/classes', [ClassController::class, 'index'])->name('classes.index');
+    Route::get('/admin/classes/create', [ClassController::class, 'create'])->name('classes.create');
+    Route::post('/admin/classes', [ClassController::class, 'store'])->name('classes.store');
+    Route::get('/admin/classes/{classRoom}/edit', [ClassController::class, 'edit'])->name('classes.edit');
+    Route::put('/admin/classes/{classRoom}', [ClassController::class, 'update'])->name('classes.update');
+    Route::get('/admin/classes/{classRoom}', [ClassController::class, 'show'])->name('classes.show');
+    Route::delete('/admin/classes/{classRoom}', [ClassController::class, 'destroy'])->name('classes.destroy');
+    Route::get('/admin/teachers', [TeacherController::class, 'index'])->name('teachers.index');
+    Route::get('/admin/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
+    Route::post('/admin/teachers', [TeacherController::class, 'store'])->name('teachers.store');
+    Route::get('/admin/teachers/{teacher}/edit', [TeacherController::class, 'edit'])->name('teachers.edit');
+    Route::put('/admin/teachers/{teacher}', [TeacherController::class, 'update'])->name('teachers.update');
+    Route::get('/admin/teachers/{teacher}', [TeacherController::class, 'show'])->name('teachers.show');
+    Route::delete('/admin/teachers/{teacher}', [TeacherController::class, 'destroy'])->name('teachers.destroy');
 });
 
 // Teacher Routes

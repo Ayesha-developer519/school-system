@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('class_id')->constrained('classes')->onDelete('cascade');
-            $table->string('roll_number')->unique();
+            $table->unsignedInteger('roll_number');
             $table->string('father_name');
             $table->date('dob')->nullable();
             $table->string('gender')->nullable();
             $table->text('address')->nullable();
             $table->date('admission_date');
             $table->timestamps();
+
+            $table->unique(['class_id', 'roll_number']);
         });
     }
 
