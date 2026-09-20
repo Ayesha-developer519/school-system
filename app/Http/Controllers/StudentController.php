@@ -12,10 +12,16 @@ use Illuminate\Validation\Rule;
 
 class StudentController extends Controller
 {
-     public function index()
+    public function index()
     {
-        $classes = ClassRoom::with(['students.user'])->orderBy('class_name')->orderBy('section')->get();
+        $classes = ClassRoom::withCount('students')->orderBy('class_name')->orderBy('section')->get();
         return view('admin.students.index', compact('classes'));
+    }
+
+    public function byClass(ClassRoom $classRoom)
+    {
+        $classRoom->load('students.user');
+        return view('admin.students.by-class', compact('classRoom'));
     }
 
     // Add student form dikhana

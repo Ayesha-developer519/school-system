@@ -17,4 +17,19 @@ class ClassRoom extends Model
     {
         return $this->hasMany(Student::class, 'class_id');
     }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class, 'class_id');
+    }
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class, 'class_id');
+    }
+
+    public function feeStructure()
+    {
+        return $this->hasOne(FeeStructure::class, 'class_id');
+    }
 }

@@ -62,7 +62,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <p class="text-muted small mb-1">Fee Collected</p>
-                            <h4 class="fw-bold mb-0">Rs. 0</h4>
+                            <h4 class="fw-bold mb-0">Rs. {{ number_format($feeCollected, 0) }}</h4>
                         </div>
                         <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:45px;height:45px;background:#eafaf3;">
                             <i class="bi bi-cash-coin text-success"></i>

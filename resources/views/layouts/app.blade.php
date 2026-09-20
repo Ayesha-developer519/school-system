@@ -109,6 +109,27 @@
             background-color: #eafaf3;
             color: #0d5c3f;
         }
+
+        .nav-tabs {
+            border-bottom: none;
+        }
+        .nav-tabs .nav-link {
+            border: none;
+            border-radius: 8px;
+            color: #6c757d;
+            font-weight: 500;
+            padding: 8px 20px;
+            margin-right: 8px;
+            background: #f4f6f5;
+        }
+        .nav-tabs .nav-link:hover {
+            color: #1a9c6d;
+            background: #eafaf3;
+        }
+        .nav-tabs .nav-link.active {
+            background: #1a9c6d;
+            color: #fff;
+        }
     </style>
     @yield('styles')
 </head>
