@@ -9,7 +9,7 @@
             <h5 class="fw-bold mb-1">Student Details</h5>
             <p class="text-muted small mb-0">Full profile information</p>
         </div>
-        <a href="{{ route('students.index') }}" class="btn btn-outline-secondary btn-sm">Back to List</a>
+        <a href="{{ route('students.by-class', $student->class_id) }}" class="btn btn-outline-secondary btn-sm">Back to List</a>
     </div>
 
     <div class="card border-0 shadow-sm">
@@ -58,6 +58,32 @@
                 <div class="col-12 mb-3">
                     <p class="text-muted small mb-1">Address</p>
                     <p class="mb-0">{{ $student->address ?: '—' }}</p>
+                </div>
+            </div>
+
+            <hr>
+
+            <h6 class="fw-bold mb-3 text-muted mt-4">Parent Invite Code</h6>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <p class="text-muted small mb-1">Invite Code</p>
+                    <p class="mb-0">
+                        @if ($student->invite_code)
+                            <span class="badge bg-light text-dark border" style="font-size: 14px;">{{ $student->invite_code }}</span>
+                        @else
+                            <span class="text-muted">No code generated</span>
+                        @endif
+                    </p>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <p class="text-muted small mb-1">Status</p>
+                    <p class="mb-0">
+                        @if ($student->invite_code_used_at)
+                            <span class="badge bg-success">Used — Linked to Parent</span>
+                        @else
+                            <span class="badge bg-warning text-dark">Not Used Yet</span>
+                        @endif
+                    </p>
                 </div>
             </div>
 

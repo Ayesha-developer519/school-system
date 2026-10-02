@@ -2,49 +2,54 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Student;
 use App\Models\ClassRoom;
 use Illuminate\Support\Facades\Hash;
 
-
 class StudentSeeder extends Seeder
 {
     public function run(): void
     {
-        $students = [
-            ['name' => 'Ali Raza', 'email' => 'ali@student.com', 'class' => '9th-A', 'roll' => 1, 'father' => 'Raza Ahmed', 'gender' => 'male'],
-            ['name' => 'Sara Khan', 'email' => 'sara@student.com', 'class' => '9th-A', 'roll' => 2, 'father' => 'Imran Khan', 'gender' => 'female'],
-            ['name' => 'Bilal Ahmed', 'email' => 'bilal@student.com', 'class' => '9th-B', 'roll' => 1, 'father' => 'Ahmed Sheikh', 'gender' => 'male'],
-            ['name' => 'Ayesha Noor', 'email' => 'ayesha@student.com', 'class' => '10th-A', 'roll' => 1, 'father' => 'Noor Muhammad', 'gender' => 'female'],
-            ['name' => 'Hamza Tariq', 'email' => 'hamza@student.com', 'class' => '10th-A', 'roll' => 2, 'father' => 'Tariq Mehmood', 'gender' => 'male'],
-        ];
+        $firstNamesMale = ['Ali', 'Bilal', 'Usman', 'Hamza', 'Fahad', 'Shahzaib', 'Danish', 'Zeeshan', 'Owais', 'Hassan', 'Talha', 'Faizan'];
+        $firstNamesFemale = ['Sara', 'Mahnoor', 'Zainab', 'Areeba', 'Hira', 'Komal', 'Rimsha', 'Ayesha', 'Sidra', 'Mehak', 'Iqra', 'Laiba'];
+        $lastNames = ['Ahmed', 'Khan', 'Raza', 'Iqbal', 'Sheikh', 'Malik', 'Hussain', 'Javed', 'Tariq', 'Nasir', 'Mehmood', 'Alam'];
 
-        foreach ($students as $s) {
-            [$className, $section] = explode('-', $s['class']);
+        $classes = ClassRoom::orderBy('id')->get();
+        $emailCounter = 1;
 
-            $classRoom = ClassRoom::where('class_name', $className)
-                ->where('section', $section)
-                ->first();
+        foreach ($classes as $class) {
+            for ($roll = 1; $roll <= 2; $roll++) {
+                $isMale = rand(0, 1) == 1;
+                $firstName = $isMale
+                    ? $firstNamesMale[array_rand($firstNamesMale)]
+                    : $firstNamesFemale[array_rand($firstNamesFemale)];
+                $lastName = $lastNames[array_rand($lastNames)];
+                $fullName = "$firstName $lastName";
 
-            $user = User::create([
-                'name' => $s['name'],
-                'email' => $s['email'],
-                'password' => Hash::make('student123'),
-                'role' => 'student',
-            ]);
+                $email = strtolower($firstName) . $emailCounter . '@student.com';
+                $emailCounter++;
 
-            Student::create([
-                'user_id' => $user->id,
-                'class_id' => $classRoom->id,
-                'roll_number' => $s['roll'],
-                'father_name' => $s['father'],
-                'gender' => $s['gender'],
-                'dob' => '2010-01-15',
-                'admission_date' => now(),
-            ]);
+                $user = User::create([
+                    'name' => $fullName,
+                    'email' => $email,
+                    'password' => Hash::make('student123'),
+                    'role' => 'student',
+                ]);
+
+                Student::create([
+                    'user_id' => $user->id,
+                    'class_id' => $class->id,
+                    'roll_number' => $roll,
+                    'father_name' => $lastNames[array_rand($lastNames)] . ' ' . ($isMale ? 'Ahmed' : 'Hussain'),
+                    'gender' => $isMale ? 'male' : 'female',
+                    'dob' => now()->subYears(rand(4, 16))->subDays(rand(0, 365)),
+                    'address' => 'Sheikhupura, Punjab',
+                    'admission_date' => now()->subMonths(rand(6, 30)),
+                    'invite_code' => 'SMS-' . strtoupper(\Illuminate\Support\Str::random(6)),
+                ]);
+            }
         }
     }
 }

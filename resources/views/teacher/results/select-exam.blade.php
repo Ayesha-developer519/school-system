@@ -49,12 +49,17 @@
                                             <div class="modal-body">
                                                 <input type="hidden" name="exam_id" value="{{ $exam->id }}">
                                                 <label class="form-label small">Subject</label>
-                                                <select name="subject_id" class="form-select" required>
-                                                    <option value="">-- Select Subject --</option>
-                                                    @foreach ($exam->classRoom->subjects as $subject)
-                                                        <option value="{{ $subject->id }}">{{ $subject->subject_name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                <div class="dropdown">
+                                                    <button class="form-select text-start dropdown-toggle-custom" type="button" id="subjectDropdownBtn{{ $exam->id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span id="subjectSelectedText{{ $exam->id }}">-- Select Subject --</span>
+                                                    </button>
+                                                    <ul class="dropdown-menu w-100 custom-role-menu" aria-labelledby="subjectDropdownBtn{{ $exam->id }}">
+                                                        @foreach ($exam->classRoom->subjects as $subject)
+                                                            <li><a class="dropdown-item role-item" href="#" data-value="{{ $subject->id }}">{{ $subject->subject_name }}</a></li>
+                                                        @endforeach
+                                                    </ul>
+                                                    <input type="hidden" name="subject_id" id="subjectInput{{ $exam->id }}" value="" required>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="submit" class="btn" style="background:#1a9c6d;color:#fff;">Continue</button>

@@ -24,18 +24,34 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'role' => 'required|in:parent',
+            'invite_code' => 'required|string',
         ]);
 
-        User::create([
+        $student = \App\Models\Student::where('invite_code', $request->invite_code)
+            ->whereNull('invite_code_used_at')
+            ->first();
+
+        if (!$student) {
+            return back()->withErrors([
+                'invite_code' => 'Invalid or already used invite code.',
+            ])->onlyInput('name', 'email');
+        }
+
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'status' => 'approved',
         ]);
 
-        return redirect('/login')->with('success', 'Registration successful! Please login.');
-    }
+        $student->update([
+            'parent_id' => $user->id,
+            'invite_code_used_at' => now(),
+        ]);
 
+        return redirect('/login')->with('success', 'Registration successful! You are now linked to your child\'s account. Please login.');
+    }
     // Login form dikhane ke liye
     public function showLoginForm()
     {

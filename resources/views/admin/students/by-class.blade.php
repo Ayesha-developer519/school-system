@@ -33,6 +33,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Father Name</th>
+                            <th>Invite Code</th>
                             <th>Admission Date</th>
                             <th class="text-end pe-4">Actions</th>
                         </tr>
@@ -44,6 +45,13 @@
                                 <td>{{ $student->user->name }}</td>
                                 <td>{{ $student->user->email }}</td>
                                 <td>{{ $student->father_name }}</td>
+                                <td>
+                                    @if ($student->invite_code_used_at)
+                                        <span class="badge bg-success">Used</span>
+                                    @else
+                                        <span class="badge bg-light text-dark border">{{ $student->invite_code }}</span>
+                                    @endif
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($student->admission_date)->format('d M, Y') }}</td>
                                 <td class="text-end pe-4">
                                     <a href="{{ route('students.show', $student->id) }}" class="btn btn-sm btn-outline-primary">View</a>

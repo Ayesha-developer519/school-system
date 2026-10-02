@@ -120,14 +120,21 @@
                     <form method="POST" action="{{ route('register.submit') }}">
                         @csrf
 
+                        <input type="hidden" name="role" value="parent">
+                        <div class="mb-3">
+                            <label class="form-label small text-muted">Child's Invite Code</label>
+                            <input type="text" name="invite_code" class="form-control" value="{{ old('invite_code') }}"  required>
+                            <p class="text-muted small mt-1 mb-0">Ask the school Admin for this code.</p>
+                        </div>
+
                         <div class="mb-3">
                             <label class="form-label small text-muted">Full name</label>
-                            <input type="text" name="name" class="form-control" value="{{ old('name') }}" placeholder="John Doe" required>
+                            <input type="text" name="name" class="form-control" value="{{ old('name') }}"  required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label small text-muted">Email address</label>
-                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="you@example.com" required>
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}"  required>
                         </div>
 
                         <div class="row">
@@ -149,13 +156,6 @@
                                     onclick="togglePassword('password_confirmation', 'password_confirmation-icon')"></i>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <input type="hidden" name="role" value="parent">
-                            <p class="text-muted small mb-0">
-                                <i class="bi bi-info-circle"></i> You're registering as a Parent. Student and Teacher accounts are created by the school Admin.
-                            </p>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 text-white">

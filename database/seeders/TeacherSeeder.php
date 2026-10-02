@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Teacher;
@@ -13,27 +12,28 @@ class TeacherSeeder extends Seeder
 {
     public function run(): void
     {
-        $teachers = [
-            [
-                'name' => 'Kamran Sheikh',
-                'email' => 'kamran@teacher.com',
-                'qualification' => 'M.Sc Mathematics',
-                'subject' => 'Mathematics',
-                'classes' => ['9th-A', '10th-A'],
-            ],
-            [
-                'name' => 'Farah Iqbal',
-                'email' => 'farah@teacher.com',
-                'qualification' => 'M.A English',
-                'subject' => 'English',
-                'classes' => ['9th-B'],
-            ],
+        $teacherNames = [
+            ['name' => 'Kamran Sheikh', 'qualification' => 'M.Sc Mathematics', 'subject' => 'Mathematics'],
+            ['name' => 'Farah Iqbal', 'qualification' => 'M.A English', 'subject' => 'English'],
+            ['name' => 'Imran Yousaf', 'qualification' => 'M.Sc Physics', 'subject' => 'Science'],
+            ['name' => 'Ayesha Malik', 'qualification' => 'M.A Urdu', 'subject' => 'Urdu'],
+            ['name' => 'Bilal Anwar', 'qualification' => 'M.A Islamic Studies', 'subject' => 'Islamiat'],
+            ['name' => 'Sana Tariq', 'qualification' => 'M.Sc Chemistry', 'subject' => 'Science'],
+            ['name' => 'Waqas Ahmed', 'qualification' => 'M.A English', 'subject' => 'English'],
+            ['name' => 'Nadia Hussain', 'qualification' => 'M.Sc Mathematics', 'subject' => 'Mathematics'],
+            ['name' => 'Tariq Javed', 'qualification' => 'M.A Urdu', 'subject' => 'Urdu'],
+            ['name' => 'Hina Shahid', 'qualification' => 'M.A Islamic Studies', 'subject' => 'Islamiat'],
         ];
 
-        foreach ($teachers as $t) {
+        $classes = ClassRoom::orderBy('id')->get();
+        $classChunks = $classes->chunk(2); // har teacher ko 2 classes assign karenge
+
+        foreach ($teacherNames as $index => $t) {
+            $emailSlug = strtolower(str_replace(' ', '.', $t['name']));
+
             $user = User::create([
                 'name' => $t['name'],
-                'email' => $t['email'],
+                'email' => $emailSlug . '@teacher.com',
                 'password' => Hash::make('teacher123'),
                 'role' => 'teacher',
             ]);
@@ -42,17 +42,11 @@ class TeacherSeeder extends Seeder
                 'user_id' => $user->id,
                 'qualification' => $t['qualification'],
                 'subject_specialization' => $t['subject'],
-                'joining_date' => now(),
+                'joining_date' => now()->subMonths(rand(6, 36)),
             ]);
 
-            $classIds = collect($t['classes'])->map(function ($classKey) {
-                [$className, $section] = explode('-', $classKey);
-                return ClassRoom::where('class_name', $className)
-                    ->where('section', $section)
-                    ->first()?->id;
-            })->filter()->toArray();
-
-            $teacher->classes()->sync($classIds);
+            $assignedClasses = $classChunks->get($index, collect());
+            $teacher->classes()->sync($assignedClasses->pluck('id')->toArray());
         }
     }
 }

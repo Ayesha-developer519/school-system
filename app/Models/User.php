@@ -39,6 +39,12 @@ class User extends Authenticatable
     {
         return $this->hasOne(Teacher::class);
     }
+
+     // Parent role wale user ke bachay (students.parent_id se linked)
+    public function children()
+    {
+        return $this->hasMany(Student::class, 'parent_id');
+    }
 }
 
 

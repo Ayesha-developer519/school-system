@@ -97,4 +97,13 @@ class TeacherController extends Controller
         $teacher->load(['user', 'classes']);
         return view('admin.teachers.show', compact('teacher'));
     }
+
+    // Teacher: apni classes ke students dekhna
+    public function myStudents()
+    {
+        $teacher = auth()->user()->teacher;
+        $classes = $teacher->classes()->with('students.user')->get();
+
+        return view('teacher.my-students', compact('classes'));
+    }
 }

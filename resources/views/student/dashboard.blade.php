@@ -14,7 +14,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <p class="text-muted small mb-1">Attendance</p>
-                            <h4 class="fw-bold mb-0">0%</h4>
+                            <h4 class="fw-bold mb-0">{{ $attendancePercentage }}%</h4>
                         </div>
                         <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:45px;height:45px;background:#eafaf3;">
                             <i class="bi bi-calendar-check text-success"></i>
@@ -30,7 +30,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <p class="text-muted small mb-1">Latest Result</p>
-                            <h4 class="fw-bold mb-0">—</h4>
+                            <h4 class="fw-bold mb-0">{{ $latestResult !== null ? $latestResult . '%' : '—' }}</h4>
                         </div>
                         <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:45px;height:45px;background:#eafaf3;">
                             <i class="bi bi-journal-text text-success"></i>
@@ -47,7 +47,9 @@
                         <div>
                             <p class="text-muted small mb-1">Fee Status</p>
                             <h4 class="fw-bold mb-0">
-                                <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge {{ $feeStatus == 'paid' ? 'bg-success' : ($feeStatus == 'pending' ? 'bg-warning text-dark' : 'bg-danger') }}">
+                                    {{ ucfirst($feeStatus) }}
+                                </span>
                             </h4>
                         </div>
                         <div class="rounded-circle d-flex align-items-center justify-content-center" style="width:45px;height:45px;background:#eafaf3;">

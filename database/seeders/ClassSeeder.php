@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\ClassRoom;
 
@@ -10,14 +9,19 @@ class ClassSeeder extends Seeder
 {
     public function run(): void
     {
-        $classes = [
-            ['class_name' => '9th', 'section' => 'A'],
-            ['class_name' => '9th', 'section' => 'B'],
-            ['class_name' => '10th', 'section' => 'A'],
-        ];
+        $singleSectionClasses = ['PG', 'Nursery', 'KG', '1st', '2nd', '3rd', '4th', '5th'];
+        $doubleSectionClasses = ['6th', '7th', '8th', '9th', '10th'];
 
-        foreach ($classes as $class) {
-            ClassRoom::create($class);
+        foreach ($singleSectionClasses as $className) {
+            ClassRoom::create([
+                'class_name' => $className,
+                'section' => 'A',
+            ]);
+        }
+
+        foreach ($doubleSectionClasses as $className) {
+            ClassRoom::create(['class_name' => $className, 'section' => 'A']);
+            ClassRoom::create(['class_name' => $className, 'section' => 'B']);
         }
     }
 }

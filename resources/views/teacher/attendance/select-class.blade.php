@@ -36,12 +36,17 @@
                             <div class="row">
                                 <div class="col-md-5 mb-3">
                                     <label class="form-label small">Select Class</label>
-                                    <select name="class_id" class="form-select" required>
-                                        <option value="">-- Select Class --</option>
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}">{{ $class->class_name }} - {{ $class->section }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="dropdown">
+                                        <button class="form-select text-start dropdown-toggle-custom" type="button" id="markClassDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span id="markClassSelectedText">-- Select Class --</span>
+                                        </button>
+                                        <ul class="dropdown-menu w-100 custom-role-menu" aria-labelledby="markClassDropdownBtn">
+                                            @foreach ($classes as $class)
+                                                <li><a class="dropdown-item role-item" href="#" data-value="{{ $class->id }}">{{ $class->class_name }} - {{ $class->section }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                        <input type="hidden" name="class_id" id="markClassInput" value="" required>
+                                    </div>
                                 </div>
                                 <div class="col-md-5 mb-3">
                                     <label class="form-label small">Select Date</label>
@@ -66,12 +71,17 @@
                         <div class="row">
                             <div class="col-md-5 mb-3">
                                 <label class="form-label small">Select Class</label>
-                                <select name="class_id" class="form-select" required>
-                                    <option value="">-- Select Class --</option>
-                                    @foreach ($classes as $class)
-                                        <option value="{{ $class->id }}">{{ $class->class_name }} - {{ $class->section }}</option>
-                                    @endforeach
-                                </select>
+                                <div class="dropdown">
+                                    <button class="form-select text-start dropdown-toggle-custom" type="button" id="historyClassDropdownBtn" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span id="historyClassSelectedText">-- Select Class --</span>
+                                    </button>
+                                    <ul class="dropdown-menu w-100 custom-role-menu" aria-labelledby="historyClassDropdownBtn">
+                                        @foreach ($classes as $class)
+                                            <li><a class="dropdown-item role-item" href="#" data-value="{{ $class->id }}">{{ $class->class_name }} - {{ $class->section }}</a></li>
+                                        @endforeach
+                                    </ul>
+                                    <input type="hidden" name="class_id" id="historyClassInput" value="" required>
+                                </div>
                             </div>
                             <div class="col-md-5 mb-3">
                                 <label class="form-label small">Select Date</label>

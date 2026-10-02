@@ -31,11 +31,45 @@ class DashboardController extends Controller
 
     public function student()
     {
-        return view('student.dashboard');
+        $student = auth()->user()->student;
+
+        $totalDays = \App\Models\Attendance::where('student_id', $student->id)->count();
+        $presentDays = \App\Models\Attendance::where('student_id', $student->id)->where('status', 'present')->count();
+        $attendancePercentage = $totalDays > 0 ? round(($presentDays / $totalDays) * 100, 1) : 0;
+
+        $latestExam = \App\Models\Exam::where('class_id', $student->class_id)->latest('exam_date')->first();
+        $latestResult = null;
+        if ($latestExam) {
+            $results = \App\Models\Result::where('exam_id', $latestExam->id)->where('student_id', $student->id)->get();
+            $totalObtained = $results->sum('marks_obtained');
+            $totalMax = $results->sum('total_marks');
+            $latestResult = $totalMax > 0 ? round(($totalObtained / $totalMax) * 100, 1) : null;
+        }
+
+        $latestFeePayment = \App\Models\FeePayment::where('student_id', $student->id)->latest('payment_date')->first();
+        $feeStatus = $latestFeePayment->status ?? 'pending';
+
+        return view('student.dashboard', compact('attendancePercentage', 'latestResult', 'feeStatus'));
     }
 
     public function parent()
     {
-        return view('parent.dashboard');
+        $children = auth()->user()->children()->with(['user', 'classRoom'])->get();
+
+        $summaries = $children->map(function ($child) {
+            $totalDays = \App\Models\Attendance::where('student_id', $child->id)->count();
+            $presentDays = \App\Models\Attendance::where('student_id', $child->id)->where('status', 'present')->count();
+            $attendancePercentage = $totalDays > 0 ? round(($presentDays / $totalDays) * 100, 1) : 0;
+
+            $latestFee = \App\Models\FeePayment::where('student_id', $child->id)->latest('payment_date')->first();
+
+            return [
+                'child' => $child,
+                'attendancePercentage' => $attendancePercentage,
+                'feeStatus' => $latestFee->status ?? 'pending',
+            ];
+        });
+
+        return view('parent.dashboard', compact('summaries'));
     }
 }

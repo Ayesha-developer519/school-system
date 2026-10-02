@@ -32,4 +32,9 @@ class ClassRoom extends Model
     {
         return $this->hasOne(FeeStructure::class, 'class_id');
     }
+
+    public function teachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'class_teacher', 'class_id', 'teacher_id');
+    }
 }

@@ -18,8 +18,14 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             ClassSeeder::class,
+            SubjectSeeder::class,
             TeacherSeeder::class,
             StudentSeeder::class,
+            FeeStructureSeeder::class,
+            ExamSeeder::class,
+            ResultSeeder::class,
+            AttendanceSeeder::class,
+            FeePaymentSeeder::class,
         ]);
     }
 }

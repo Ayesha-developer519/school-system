@@ -12,7 +12,7 @@ use App\Http\Controllers\ExamController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\FeeStructureController;
 use App\Http\Controllers\FeePaymentController;
-
+use App\Http\Controllers\ParentController;
 
 
 
@@ -96,14 +96,27 @@ Route::middleware(['auth', 'role:teacher'])->group(function () {
     Route::get('/teacher/results', [ResultController::class, 'selectExam'])->name('results.select');
     Route::get('/teacher/results/mark', [ResultController::class, 'markForm'])->name('results.mark');
     Route::post('/teacher/results', [ResultController::class, 'store'])->name('results.store');
+    
+    Route::get('/teacher/my-students', [TeacherController::class, 'myStudents'])->name('teacher.my-students');
 });
 
 // Student Routes
 Route::middleware(['auth', 'role:student'])->group(function () {
     Route::get('/student/dashboard', [DashboardController::class, 'student'])->name('student.dashboard');
+    
+    Route::get('/student/attendance', [StudentController::class, 'myAttendance'])->name('student.attendance');
+    Route::get('/student/results', [StudentController::class, 'myResultsIndex'])->name('student.results.index');
+    Route::get('/student/results/{exam}', [StudentController::class, 'myResultShow'])->name('student.results.show');
+    Route::get('/student/fees', [StudentController::class, 'myFees'])->name('student.fees');
 });
 
 // Parent Routes
 Route::middleware(['auth', 'role:parent'])->group(function () {
     Route::get('/parent/dashboard', [DashboardController::class, 'parent'])->name('parent.dashboard');
+
+    Route::get('/parent/children', [ParentController::class, 'children'])->name('parent.children');
+    Route::get('/parent/children/{student}/attendance', [ParentController::class, 'attendance'])->name('parent.attendance');
+    Route::get('/parent/children/{student}/results', [ParentController::class, 'resultsIndex'])->name('parent.results.index');
+    Route::get('/parent/children/{student}/results/{exam}', [ParentController::class, 'resultShow'])->name('parent.results.show');
+    Route::get('/parent/children/{student}/fees', [ParentController::class, 'fees'])->name('parent.fees');
 });

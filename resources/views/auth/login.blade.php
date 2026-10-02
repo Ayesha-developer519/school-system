@@ -101,7 +101,7 @@
 
                         <div class="mb-3">
                             <label class="form-label small text-muted">Email address</label>
-                            <input type="email" name="email" class="form-control" value="{{ old('email') }}" placeholder="you@example.com" required>
+                            <input type="email" name="email" class="form-control" value="{{ old('email') }}"  required>
                         </div>
 
                         <div class="mb-4">
@@ -120,7 +120,7 @@
                     </form>
 
                     <p class="text-center mt-4 small text-muted mb-0">
-                        Don't have an account? <a href="{{ route('register') }}" class="text-decoration-none fw-medium">Register here</a>
+                        Parent? <a href="{{ route('register') }}" class="text-decoration-none fw-medium">Register with your child's invite code</a>
                     </p>
                 </div>
             </div>
